@@ -1,0 +1,145 @@
+@import "utils/variables";
+
+@font-face {
+    font-family: "Inter var regular";
+    font-weight: 100 900;
+    font-display: block;
+    font-style: normal;
+    src: url("./fonts/Inter-roman.var.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Inter var italic";
+    font-weight: 100 900;
+    font-display: block;
+    font-style: italic;
+    src: url("./fonts/Inter-italic.var.woff2") format("woff2");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+textarea,
+input {
+    outline: none;
+    background-color: transparent;
+    appearance: none;
+    border: none;
+    font-size: clamp(14px, 1vw, 20px);
+    font-weight: 400;
+    padding: 5px 10px;
+    border: 1px solid $french-gray;
+    border-radius: 10px;
+}
+
+.open-burger {
+    display: none;
+}
+
+#root {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    background-color: $main-gray;
+    font-family: "Inter var regular", sans-serif;
+}
+
+h1 {
+    font-size: clamp(20px, 3vw, 36px);
+    font-weight: 400;
+}
+
+h2 {
+    font-size: clamp(16px, 2vw, 24px);
+    font-weight: 400;
+}
+
+.app_container {
+    flex: 1;
+    display: flex;
+    padding: 30px;
+    overflow: hidden;
+}
+
+.selected_todo_container {
+    flex: 1;
+}
+
+header {
+    width: 100%;
+    padding: 15px;
+    display: grid;
+    place-items: center;
+}
+
+.burger_container {
+    width: 50px;
+    height: 50px;
+    div {
+        :last-child {
+            margin-bottom: 0;
+        }
+        width: 25px;
+        height: 3px;
+        margin-bottom: 2px;
+        background-color: $burger-color;
+    }
+}
+
+.create_todo_modal {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    display: none;
+    place-items: center;
+    .form_container {
+        position: relative;
+        width: 50%;
+        height: 0;
+        background-color: $main-white;
+        border-radius: 10%;
+        padding: 15px;
+        padding-bottom: 50%;
+        h2 {
+            text-align: center;
+        }
+    }
+}
+
+footer {
+    display: grid;
+    place-items: center;
+    padding-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+    .app_container {
+        padding: 15px;
+    }
+    .open-burger {
+        cursor: pointer;
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        position: absolute;
+        left: 30px;
+        top: 15px;
+        svg {
+            width: 25px;
+            height: 25px;
+        }
+    }
+}

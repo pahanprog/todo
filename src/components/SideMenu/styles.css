@@ -1,0 +1,171 @@
+.todo_list_container {
+  height: 100%;
+  width: clamp(260px, 30vw, 400px);
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.todo_list_container::after {
+  content: "";
+  background-color: transparent;
+  position: absolute;
+  right: 0;
+  top: 20px;
+  width: 4px;
+  height: calc(100% - 40px);
+  cursor: ew-resize;
+}
+.todo_list_container .burger-close {
+  display: none;
+}
+.todo_list_container .search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.todo_list_container .search-container svg {
+  margin-right: 10px;
+}
+.todo_list_container ul {
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+}
+.todo_list_container ul::-webkit-scrollbar {
+  width: 15px;
+}
+.todo_list_container ul::-webkit-scrollbar-track {
+  background-color: #bebfc5;
+  border-radius: 50px;
+}
+.todo_list_container ul::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  border: 4px solid transparent;
+  background-clip: content-box;
+  background-color: #fff;
+}
+.todo_list_container ul li {
+  padding: 5px 10px;
+  margin-right: 5px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: background-color 250ms ease;
+  cursor: pointer;
+}
+.todo_list_container ul li:hover {
+  background-color: rgba(230, 231, 235, 0.4);
+}
+.todo_list_container ul li.selected {
+  background-color: rgba(230, 231, 235, 0.4);
+}
+.todo_list_container ul li .todo-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.todo_list_container ul li .todo-item .todo_title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: calc(100% - 40px - 25px);
+}
+.todo_list_container ul li .todo-item.complete {
+  text-decoration: line-through;
+}
+.todo_list_container ul li .todo-item .todo_delete_btn {
+  display: grid;
+  opacity: 0;
+  margin-left: auto;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  background-color: #ed2839;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: opacity 250ms ease;
+}
+.todo_list_container ul li .todo-item .todo_delete_btn svg {
+  width: 20px;
+  height: 20px;
+}
+.todo_list_container ul li .todo-item:hover .todo_delete_btn {
+  opacity: 1;
+}
+.todo_list_container ul li .todo_item_state_icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background-color: #e6e7eb;
+  border-radius: 5px;
+  margin-right: 15px;
+  cursor: pointer;
+  transition: background-color 250ms ease;
+}
+.todo_list_container ul li .todo_item_state_icon:hover {
+  background-color: #bebfc5;
+}
+.todo_list_container ul li .todo_item_state_icon svg {
+  width: 20px;
+  height: 20px;
+}
+.todo_list_container .create_todo_button_container {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  cursor: pointer;
+  margin-top: 15px;
+}
+.todo_list_container .create_todo_button_container svg {
+  margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+  .todo_list_container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    border-radius: 0;
+    z-index: 2;
+    box-shadow: 1px 0 4px 0 #888;
+    transition: transform 250ms ease;
+  }
+  .todo_list_container.closed {
+    transform: translateX(-100%);
+  }
+  .todo_list_container.open {
+    transform: translateX(0);
+  }
+  .todo_list_container .burger-close {
+    cursor: pointer;
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    background-color: #e6e7eb;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  .todo_list_container .burger-close svg {
+    width: 20px;
+    height: 20px;
+  }
+  .todo_list_container ul li .todo-item .todo_delete_btn {
+    opacity: 1;
+  }
+}/*# sourceMappingURL=styles.css.map */
