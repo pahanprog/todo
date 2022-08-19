@@ -1,0 +1,52 @@
+.todo_list_container li {
+  padding: 5px 10px;
+  margin-right: 5px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: background-color 250ms ease;
+  cursor: pointer;
+}
+.todo_list_container li:hover {
+  background-color: rgba(230, 231, 235, 0.4);
+}
+.todo_list_container li.selected {
+  background-color: rgba(230, 231, 235, 0.4);
+}
+.todo_list_container li .todo-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.todo_list_container li .todo-item .todo_title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: calc(100% - 40px - 25px);
+}
+.todo_list_container li .todo-item.complete {
+  text-decoration: line-through;
+}
+.todo_list_container li .todo-item .todo_delete_btn {
+  display: grid;
+  opacity: 0;
+  margin-left: auto;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  background-color: #ed2839;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: opacity 250ms ease;
+}
+.todo_list_container li .todo-item .todo_delete_btn svg {
+  width: 20px;
+  height: 20px;
+}
+.todo_list_container li .todo-item:hover .todo_delete_btn {
+  opacity: 1;
+}/*# sourceMappingURL=styles.css.map */

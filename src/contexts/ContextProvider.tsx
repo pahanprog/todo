@@ -7,13 +7,14 @@ interface Props {
   children?: React.ReactNode;
 }
 
+// Компонент, который рендерит все провайдеры контекстов
 const ContextProvider = ({ children }: Props) => {
   return (
-    <TodosProvider>
-      <PathProvider>
+    <PathProvider>
+      <TodosProvider>
         <AdaptiveProvider>{children}</AdaptiveProvider>
-      </PathProvider>
-    </TodosProvider>
+      </TodosProvider>
+    </PathProvider>
   );
 };
 

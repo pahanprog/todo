@@ -7,8 +7,10 @@ interface Props {
 }
 
 const InlineEdit = ({ textarea, value, setValue }: Props) => {
+  // локальное состояние редактируемого параметра задачи
   const [editingValue, setEditingValue] = useState(value);
 
+  // Useeffect, заменяющий внутреннее состояние при изменении выбранно задачи
   useEffect(() => {
     setEditingValue(value);
   }, [value]);
@@ -19,6 +21,7 @@ const InlineEdit = ({ textarea, value, setValue }: Props) => {
       | React.ChangeEvent<HTMLTextAreaElement>
   ) => setEditingValue(event.target.value);
 
+  // Функция, вызывающее blur на редактируемый элемент при нажатии на Enter или Escape (В случае textarea, для вызова blur не должна быть зажата Shift)
   const onKeyDown = (
     event:
       | React.KeyboardEvent<HTMLInputElement>
@@ -29,6 +32,7 @@ const InlineEdit = ({ textarea, value, setValue }: Props) => {
     }
   };
 
+  // Функция, сохраняющая данные при правильном заполнении (вызывается после blur)
   const onBlur = (
     event:
       | React.FocusEvent<HTMLInputElement, Element>

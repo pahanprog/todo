@@ -2,46 +2,44 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { AdaptiveContext } from "../../contexts/AdaptiveProvider";
 import { PathContext } from "../../contexts/PathContext";
 import { TodosContext } from "../../contexts/TodosContext";
-import TodoItemStateIcon from "../TodoItemStateIcon";
+import ListSearch from "../ListSearch";
+import TodoListItem from "../TodoListItem";
+import CreateTodo from "../CreateTodo";
+
 import "./styles.css";
 
 const SideMenu = () => {
-  const { todos, addTodo, removeTodo } = useContext(TodosContext);
+  const { todos } = useContext(TodosContext);
   const { path, changePath } = useContext(PathContext);
   const { sideBarOpen, toggleSideBarOpen } = useContext(AdaptiveContext);
 
-  const [input, setInput] = useState("");
   const [search, setSearch] = useState("");
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      if (input !== "") {
-        addTodo({ title: input });
-      }
-    }
-  };
+  /* Ref, хранящий прошлую длинну списка задач (для работы авто скролла ниже) */
 
   const prevTodosLenght = useRef(todos.length);
 
+  /* Ref элемента внизу списка (для работы авто скрола ниже) */
+
+  const ulDummyDivRef = useRef<HTMLDivElement | null>(null);
+
+  /* Useeffect, который на первый рендер выбирает последнюю созданную задачу и скролит список задач при создании новой */
+
   useEffect(() => {
-    setInput("");
-    if (ulDummyDivRef.current) {
+    if (
+      ulDummyDivRef.current &&
+      !search &&
+      todos.length > prevTodosLenght.current
+    ) {
       ulDummyDivRef.current.scrollIntoView({ behavior: "smooth" });
     }
-    if (path === "/" || todos.length !== prevTodosLenght.current) {
+    if (path === "/") {
       changePath(todos[todos.length - 1]?.slug);
     }
     prevTodosLenght.current = todos.length;
   }, [todos]);
 
-  const ulDummyDivRef = useRef<HTMLDivElement | null>(null);
-
-  const handleRemoveTodo = (slug: string) => {
-    if (slug === "/") return;
-    removeTodo(slug);
-    changePath("/");
-  };
-
+  /* Ниже все используется для изменения ширины левой панели путем удержания и перемещения правой границы (Ref элемента, константа размера области для удержания) */
   const BORDER_SIZE = 4;
   const panel = useRef<HTMLDivElement | null>(null);
 
@@ -63,8 +61,10 @@ const SideMenu = () => {
       "mousedown",
       (e) => {
         if (
-          e.offsetX - BORDER_SIZE <
-          parseInt(getComputedStyle(panel.current!, "").width) - BORDER_SIZE
+          e.offsetX >
+            parseInt(getComputedStyle(panel.current!, "").width) -
+              BORDER_SIZE &&
+          getWindowWidth() > 768
         ) {
           m_pos = e.x;
           document.addEventListener("mousemove", resize, false);
@@ -87,11 +87,30 @@ const SideMenu = () => {
     };
   }, []);
 
+  const getWindowWidth = () => {
+    return window.innerWidth;
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = getWindowWidth();
+
+      if (width <= 768 && panel.current) {
+        panel.current.removeAttribute("style");
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div
       className={`todo_list_container ${sideBarOpen ? "open" : "closed"}`}
       ref={(el) => (panel.current = el)}
     >
+      {/* Кнопка закрытия панели для адаптивности */}
       <div className="burger-close" onClick={toggleSideBarOpen}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -104,26 +123,11 @@ const SideMenu = () => {
           <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
         </svg>
       </div>
-      <div className="search-container">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          className="bi bi-search"
-          viewBox="0 0 16 16"
-        >
-          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-        </svg>
-        <input
-          type="text"
-          placeholder="Search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
+      {/* Компонент поиска  */}
+      <ListSearch value={search} onChange={setSearch} />
+      {/* Список задач  */}
       <ul>
-        {todos.map((todo, index) => {
+        {todos.map((todo) => {
           if (
             search &&
             !todo.title.toLowerCase().includes(search.toLowerCase())
@@ -131,77 +135,21 @@ const SideMenu = () => {
             return null;
           }
           return (
-            <li
-              key={index}
-              onClick={() => {
-                changePath(todo.slug);
-              }}
-              className={path === todo.slug ? "selected" : ""}
-            >
-              <div className={`todo-item ${todo.complete && "complete"}`}>
-                <TodoItemStateIcon {...todo} />
-                <div className="todo_title">{todo.title}</div>
-                <div
-                  className="todo_delete_btn"
-                  onClick={() => {
-                    handleRemoveTodo(todo.slug);
-                  }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    className="bi bi-trash"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                    <path
-                      fill-rule="evenodd"
-                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </li>
+            <TodoListItem
+              key={todo.slug}
+              {...todo}
+              selected={todo.slug === path}
+            />
           );
         })}
+        {/* Нижний элемент используемый для авто скрола */}
         <div
           style={{ float: "left", clear: "both" }}
           ref={(el) => (ulDummyDivRef.current = el)}
-        ></div>
-      </ul>
-      <div
-        className="create_todo_button_container"
-        onClick={() => {
-          if (input !== "") {
-            addTodo({ title: input });
-          }
-        }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          className="bi bi-plus-lg"
-          viewBox="0 0 16 16"
-        >
-          <path
-            fillRule="evenodd"
-            d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
-          />
-        </svg>
-        <input
-          type="text"
-          placeholder="Create new task"
-          value={input}
-          onChange={(e) => {
-            setInput(e.target.value);
-          }}
-          onKeyDown={handleKeyDown}
         />
-      </div>
+      </ul>
+      {/* Компонент создания новой задачи */}
+      <CreateTodo />
     </div>
   );
 };

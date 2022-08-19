@@ -1,0 +1,14 @@
+.create_todo_button_container {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  cursor: pointer;
+  margin-top: 15px;
+}
+.create_todo_button_container svg {
+  margin-right: 10px;
+}/*# sourceMappingURL=styles.css.map */

@@ -1,3 +1,4 @@
+//
 @import "utils/variables";
 
 @font-face {
@@ -28,10 +29,10 @@ input {
     background-color: transparent;
     appearance: none;
     border: none;
-    font-size: clamp(14px, 1vw, 20px);
+    font-size: clamp(14px, 1vw, 16px);
     font-weight: 400;
     padding: 5px 10px;
-    border: 1px solid $french-gray;
+    border: 1px solid $primary-color-dark;
     border-radius: 10px;
 }
 
@@ -47,7 +48,7 @@ input {
 }
 
 body {
-    background-color: $main-gray;
+    background-color: $primary-color;
     font-family: "Inter var regular", sans-serif;
 }
 
@@ -79,45 +80,6 @@ header {
     place-items: center;
 }
 
-.burger_container {
-    width: 50px;
-    height: 50px;
-    div {
-        :last-child {
-            margin-bottom: 0;
-        }
-        width: 25px;
-        height: 3px;
-        margin-bottom: 2px;
-        background-color: $burger-color;
-    }
-}
-
-.create_todo_modal {
-    width: 100vw;
-    height: 100vh;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1;
-    display: none;
-    place-items: center;
-    .form_container {
-        position: relative;
-        width: 50%;
-        height: 0;
-        background-color: $main-white;
-        border-radius: 10%;
-        padding: 15px;
-        padding-bottom: 50%;
-        h2 {
-            text-align: center;
-        }
-    }
-}
-
 footer {
     display: grid;
     place-items: center;
@@ -135,7 +97,7 @@ footer {
         height: 30px;
         place-items: center;
         position: absolute;
-        left: 30px;
+        left: 15px;
         top: 15px;
         svg {
             width: 25px;

@@ -1,0 +1,9 @@
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.search-container svg {
+  margin-right: 10px;
+}/*# sourceMappingURL=styles.css.map */

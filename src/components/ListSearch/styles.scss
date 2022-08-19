@@ -1,0 +1,11 @@
+@import "../../utils/variables";
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    svg {
+        margin-right: 10px;
+    }
+}

@@ -1,3 +1,5 @@
+// Функции возвращающие текущую дату в привычном формате
+
 const date = new Date();
 
 const getTimeOfDay = () => {

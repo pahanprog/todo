@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 export const PathContext = createContext({} as PathContextProps);
 
@@ -11,6 +11,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
+// Провайдет контекста для работы выбора задач
 const PathProvider = ({ children }: Props) => {
   const initialPath = "/";
 

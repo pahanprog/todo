@@ -22,9 +22,9 @@ const Main = () => {
   const handleRemoveTodo = (slug: string) => {
     if (slug === "/") return;
     removeTodo(slug);
-    changePath("/");
   };
 
+  // Useeffect меняющий локальное состояние на выбранную пользователем задачу
   useEffect(() => {
     const todoBasedOnCurrentPath = todos.filter(
       (todo) => todo.slug === path
@@ -52,6 +52,7 @@ const Main = () => {
                     : ""
                 }`}
               >
+                {/* Компонент отображающий состояние задачи */}
                 <TodoItemStateIcon {...todo} />
                 <div className="todo_state_message">
                   {todo.inProgress
@@ -72,7 +73,7 @@ const Main = () => {
             </div>
             <div className="todo_main_info">
               <div className="title-container">
-                title:{" "}
+                title: {/* Компонент редактирования параметра задачи */}
                 <InlineEdit
                   value={todo.title}
                   setValue={(value) => {
@@ -85,7 +86,7 @@ const Main = () => {
               </div>
               {todo.description ? (
                 <div className="description-container">
-                  description:{" "}
+                  description: {/* Компонент редактирования параметра задачи */}
                   <InlineEdit
                     value={todo.description}
                     setValue={(value) => {
@@ -100,6 +101,7 @@ const Main = () => {
               ) : (
                 <div className="description-container">
                   Add description:{" "}
+                  {/* Компонент редактирования параметра задачи */}
                   <InlineEdit
                     value={""}
                     setValue={(value) => {
@@ -113,13 +115,17 @@ const Main = () => {
                 </div>
               )}
             </div>
+            {/* Дата и время создания задачи */}
             <div className="todo_main_footer">
               {getCurrentMonth(todo.createdAt)} {getCurrentDay(todo.createdAt)},{" "}
               {getTime(todo.createdAt)}
             </div>
           </>
         ) : (
-          <div className="empty-list-message">Create a task to edit</div>
+          <>
+            {/* Сообщение при отсутствие задач */}
+            <div className="empty-list-message">Create a task to edit</div>
+          </>
         )}
       </div>
     </div>

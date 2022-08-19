@@ -17,7 +17,7 @@
 
     .todo_delete_btn {
         padding: 5px 10px;
-        background-color: #ed2839;
+        background-color: $accent-red;
         border-radius: 10px;
         color: white;
         cursor: pointer;
@@ -33,36 +33,16 @@
         display: flex;
         align-items: center;
         &.in-progress {
-            color: #5865f2;
+            color: $accent-blue;
         }
         &.complete {
-            color: #00ad83;
+            color: $accent-green;
         }
     }
 }
 
 .todo_main_footer {
     margin-top: 15px;
-}
-
-.todo_item_state_icon {
-    width: 30px;
-    height: 30px;
-    border-radius: 10px;
-    display: grid;
-    place-items: center;
-    background-color: $main-gray;
-    border-radius: 5px;
-    margin-right: 15px;
-    cursor: pointer;
-    transition: background-color 250ms ease;
-    &:hover {
-        background-color: $french-gray;
-    }
-    svg {
-        width: 20px;
-        height: 20px;
-    }
 }
 
 .todo_main_info {
@@ -99,7 +79,7 @@
     .selected_todo_container {
         display: flex;
         flex-direction: column;
-        padding: 35px 15px 0 15px;
+        padding: 35px 0 0 0;
     }
     .todo_info_container {
         margin-top: 30px;

@@ -11,6 +11,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
+// Провайдер контеска для работы адаптивной левой панели
 const AdaptiveProvider = ({ children }: Props) => {
   const [sideBarOpen, setSideBarOpen] = useState(false);
 

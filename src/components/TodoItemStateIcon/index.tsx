@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
-import { TodosContext } from "../contexts/TodosContext";
+import { TodosContext } from "../../contexts/TodosContext";
+
+import "./styles.css";
 
 interface Props {
   slug: string;

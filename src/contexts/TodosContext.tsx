@@ -1,5 +1,12 @@
-import React, { createContext, useEffect, useRef, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { TodoItem, TodoItemPartial } from "../types";
+import { PathContext } from "./PathContext";
 
 export const TodosContext = createContext({} as TodosContextProps);
 
@@ -15,17 +22,22 @@ interface TodosContextProps {
   changeTodoParameters: (slug: string, newParameters: TodoItemPartial) => void;
 }
 
+const defaultTodo = [
+  {
+    slug: "/Your-first-task0",
+    createdAt: new Date(),
+    title: "Your first task",
+    complete: false,
+    inProgress: false,
+  },
+];
+
+// Провайдет контекста, хранящего список задач, функции удаления, редактирования, добавления и изменения состояния задачи
 const TodosProvider = ({ children }: Props) => {
+  const { changePath } = useContext(PathContext);
+
   const lastUsedId = useRef(0);
-  const [todos, setTodos] = useState<TodoItem[]>([
-    {
-      slug: "/test-todo" + lastUsedId.current,
-      createdAt: new Date(),
-      title: "test todo",
-      complete: false,
-      inProgress: false,
-    },
-  ]);
+  const [todos, setTodos] = useState<TodoItem[]>(defaultTodo);
 
   const addTodo = (todo: TodoItemPartial) => {
     lastUsedId.current++;
@@ -43,9 +55,22 @@ const TodosProvider = ({ children }: Props) => {
         inProgress: false,
       },
     ]);
+    changePath(
+      "/" +
+        todo.title.toLocaleLowerCase().replace(" ", "-") +
+        lastUsedId.current
+    );
   };
 
   const removeTodo = (slug: string) => {
+    const indexBaseOnSlug = todos.findIndex((todo) => todo.slug === slug);
+    if (todos[indexBaseOnSlug + 1]) {
+      changePath(todos[indexBaseOnSlug + 1].slug);
+    } else if (todos[indexBaseOnSlug - 1]) {
+      changePath(todos[indexBaseOnSlug - 1].slug);
+    } else {
+      changePath("/");
+    }
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.slug !== slug));
   };
 

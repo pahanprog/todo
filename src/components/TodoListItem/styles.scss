@@ -1,0 +1,53 @@
+.todo_list_container {
+    li {
+        padding: 5px 10px;
+        margin-right: 5px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        transition: background-color 250ms ease;
+        cursor: pointer;
+        &:hover {
+            background-color: rgba(230, 231, 235, 0.4);
+        }
+        &.selected {
+            background-color: rgba(230, 231, 235, 0.4);
+        }
+        .todo-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            user-select: none;
+            .todo_title {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                width: calc(100% - 40px - 25px);
+            }
+            &.complete {
+                text-decoration: line-through;
+            }
+            .todo_delete_btn {
+                display: grid;
+                opacity: 0;
+                margin-left: auto;
+                place-items: center;
+                width: 30px;
+                height: 30px;
+                background-color: $accent-red;
+                border-radius: 4px;
+                color: white;
+                cursor: pointer;
+                transition: opacity 250ms ease;
+                svg {
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+            &:hover {
+                .todo_delete_btn {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
